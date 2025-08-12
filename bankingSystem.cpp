@@ -1,9 +1,10 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 void bankBalance(float balance);
 float bankDeposit();
-float bankWithdraw();
+float bankWithdraw(float balance);
 
 int main()
 {
@@ -28,10 +29,13 @@ int main()
             balance += bankDeposit();
             break;
         case 3:
-            balance -= bankWithdraw();
+            balance -= bankWithdraw(balance);
+            break;
+        case 4:
+            cout << "Exiting... Thanks come again.\n";
             break;
         default:
-            cout << "Exiting... Thanks come again.\n";
+            cout << "Your choice should not exceed 4 and not less than 1!\n";
             break;
         }
     }
@@ -41,19 +45,27 @@ int main()
 
 void bankBalance(float balance)
 {
-    cout << "Your balance is " << balance << endl;
+    cout << "Your balance is $" << balance << fixed << setprecision(2) << endl;
 }
 
 float bankDeposit()
 {
     float deposit;
-    while (true)
+    char continueBank = 'y';
+    while (continueBank == 'y' || continueBank == 'Y')
     {
         cout << "How much do you want to deposit? $";
         cin >> deposit;
         if (deposit <= 0)
         {
             cout << "Invalid deposit amount\n";
+            cout << "Do you want to exit? (y/n)\n";
+            cin >> continueBank;
+            if (continueBank == 'n' || 'N')
+            {
+                main();
+                break;
+            }
         }
         else
         {
@@ -62,16 +74,24 @@ float bankDeposit()
     }
 }
 
-float bankWithdraw()
+float bankWithdraw(float balance)
 {
+    char continueBank = 'y';
     float withdraw;
-    while (true)
+    while (continueBank == 'y' || continueBank == 'Y')
     {
         cout << "How much do you want to withdraw? $";
         cin >> withdraw;
-        if (withdraw <= 0)
+        if (withdraw > balance)
         {
             cout << "Invalid withdraw amount\n";
+            cout << "Do you want to exit? (y/n)\n";
+            cin >> continueBank;
+            if (continueBank == 'n' || 'N')
+            {
+                main();
+                break;
+            }
         }
         else
         {
@@ -79,3 +99,15 @@ float bankWithdraw()
         }
     }
 }
+
+/*
+THIS SYSTEM WILL BE IMPLEMENTED TO SLOT MACHINE ONCE IT IS DONE!
+USER CAN CHECK THEIR BALANCE IN THE BANK AND CAN ALSO BE WITHDRAW
+A MONEY TO THEIR POCKET OR JUST CASH OUT AND PUT THEIR EARNINGS TO THE BANK.
+
+NOTE FOR FUTURE UPGRADE!
+ **ADD A UI/UX TO THE SYSTEM FOR BETTER VISUALS**
+ **ADD A ACCOUNT TO SAVE THE PROGRESS OF THE USERS**
+ **ADD A DATABASE IN ORDER TO STORE THE PROGRESS OF
+   THE USERS AND STORE THEIR INFORMATION**
+*/
